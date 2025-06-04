@@ -1,0 +1,24 @@
+# Login using the following credentials
+
+ssh eleanor@venus.hackmyvm.eu -p 5000
+
+pwd: UNDchvln6Bmtu7b
+
+Mission 0x08:
+The user victoria has left her password in a file in which the owner is the user violin.
+
+Soln: 
+
+-> Again it seems the question is giving hints of using the 'find' command.
+-> This time we are given the owner of the file instead of it's name or size.
+
+# eleanor@venus:~$ find / -type f -user violin 2>/dev/null
+# /usr/local/games/yo
+
+-> We yet again used the 'find' command with the following arguements:
+	- '-user violin' -> to specify the owner user of the search object.
+
+-> Access the file.
+
+# eleanor@venus:~$ cat /usr/local/games/yo
+# pz8OqvJBFxH0cSj

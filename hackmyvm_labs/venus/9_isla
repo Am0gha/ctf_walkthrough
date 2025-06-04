@@ -1,0 +1,38 @@
+# Login using the following credentials:
+
+ssh isla@venus.hackmym.eu -p 5000
+
+pwd: D3XTob0FUImsoBb
+
+Mission 0x10:
+The password of the user violet is in the line that begins with a9HFX (these 5 characters are not part of her password.).
+
+Soln:
+
+-> As they haven't mentioned what file to look it up in, we assume that the file is present in the working directory so checking it.
+
+# isla@venus:~$ ls
+# flagz.txt  mission.txt  passy
+
+-> There is a file called passy, which is the file we should search the password in.
+-> They have mentione that the password is persent in the file at the line beginning with the string 'a9HFX'.
+-> This question requires the use of 'grep' command.
+-> * 'grep' command is used to search a string or a pattern in a file of strings or text files.
+
+-> Let's check the word count in the "passy" file.
+
+# isla@venus:~$ wc passy
+#  808   808 16968 passy
+
+-> There are about 808 lines in the file and 808 words as well.
+-> Using 'grep' command we need to build a regex to search the particular string at the very beginning of each line.
+
+# isla@venus:~$ grep '^a9HFX' passy
+# a9HFXWKINVzNQLKLDVAc
+
+-> We used 'grep' command with the following arguements:
+	- "'^a9HFX'" -> specifying the 'grep' to find the line that begins with the follwing string. '^' symbol is used to denote 'begins with' part in the command.
+	- 'passy' -> specifying the file to search in.
+
+-> Excluding the a9HFX part copy and use the passowrd for accessing the 'violet' user
+# WKINVzNQLKLDVAc

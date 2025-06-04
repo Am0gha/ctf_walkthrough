@@ -1,0 +1,50 @@
+# Login using the following credentials:
+
+ssh victoria@venus.hackmym.eu -p 5000
+
+pwd: pz8OqvJBFxH0cSj
+
+Mission 0x09:
+The user isla has left her password in a zip file.
+
+Soln:
+
+-> Finally it seems we are done with the 'find' command.
+-> Let's check if a zip file is present in the working directory.
+
+# victoria@venus:~$ ls
+# flagz.txt  mission.txt  passw0rd.zip
+
+-> We do have a 'passw0rd.zip' file present in our working directory.
+-> Let's "unzip" it.
+
+# victoria@venus:~$ unzip passw0rd.zip
+# Archive:  passw0rd.zip
+# checkdir error:  cannot create pwned
+#                  Permission denied
+#                  unable to process pwned/victoria/passw0rd.txt.
+
+-> **Forgot to mention that you cannot perform any sort of operations in any of the available directories except '/tmp' directories. Refer the 'readme' file present in the 'hacker' user which we started at the very beginning.
+-> Create your very own directory in '/tmp' with as many '.' in the beginning and a name.
+
+# victoria@venus:~$ mkdir /tmp/..amo01
+
+-> Now copy the zip file into the directory and proceed to extract it.
+
+# victoria@venus:~$ cp passw0rd.zip /tmp/..amo01
+# victoria@venus:~$ cd /tmp/..amo01
+# 
+# victoria@venus:/tmp/..amo01$ ls
+# passw0rd.zip
+# 
+# victoria@venus:/tmp/..amo01$ unzip passw0rd.zip
+# Archive:  passw0rd.zip
+#  extracting: pwned/victoria/passw0rd.txt
+# 
+# victoria@venus:/tmp/..amo01$ ls
+# passw0rd.zip  pwned
+
+-> Now access the file to fetch the passowrd for the 'isla' user.
+
+# victoria@venus:/tmp/..amo01$ cat pwned/victoria/passw0rd.txt
+# D3XTob0FUImsoBb

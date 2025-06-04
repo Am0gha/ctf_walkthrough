@@ -1,0 +1,22 @@
+# Login using the following credentials
+
+ssh luna@venus.hackmyvm.eu -p 5000
+
+pwd: j3vkuoKQwvbhkMc
+
+Mission 0x07:
+The user eleanor has left her password in a file that occupies 6969 bytes.
+
+Soln:
+
+-> Again by the looks of it, it seems another question for using find command.
+-> But this time instead of the name, we are givent he size of the file.
+
+# luna@venus:~$ find / -size 6969c 2>/dev/null
+# /usr/share/moon.txt
+
+-> We used the 'find' command with the following arguements:
+	- '-size 6969c' -> to specify the size of the file / search object. the 'c' after the number denotes that the object's size is to be measured in bytes. (A suffix for bytes)
+
+# luna@venus:~$ cat /usr/share/moon.txt
+# UNDchvln6Bmtu7b
