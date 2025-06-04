@@ -1,0 +1,33 @@
+# Login using the following credentials
+
+ssh angela@venus.hackmyvm.eu -p 5000
+
+pwd: oh5p9gAABugHBje
+
+Mission  0x03:
+The password of the user emma is in line 4069 of the file findme.txt
+
+Soln:
+
+-> We need to check how many lines are there in the findme.txt file
+
+# angela@venus:~$ wc findme.txt
+# 4618  4618 73888 findme.txt
+
+-> The first 4618 shows the number of lines present in the findme.txt file
+-> The second 4618 shows the number of words present in the findme.txt file
+-> We need to print the 4069th line of the file.
+
+# angela@venus:~$ tail -n 550 findme.txt
+# fIvltaGaq0OUH8O
+# 8e1adaa68b88d70
+# 9eac49c7e0f4f6d
+# debb716c32b9acf
+# 9f49c87be422435
+# ...
+# ...
+
+-> 'tail' command would print the last 10 lines of given file.
+-> We used the '-n' arguement in order for the 'tail' command to print last 'n' lines, in our case 4618-4069=549 so 550 lines.
+-> Try the first few lines as the password since we printed the last 550 lines it could be one of the first 2.
+

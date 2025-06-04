@@ -1,0 +1,25 @@
+# Login to sophia user using the following credentials
+
+ssh sophia@venus.hackmyvm.eu -p 5000
+
+pwd : Y1o645M3mR84ejc
+
+Mission 0x02
+The user angela has saved her password in a file but she does not remember where ... she only remembers that the file was called whereismypazz.txt
+
+Soln:
+
+-> This requires us to search the file by its name in all possible directories using find command
+-> We need to search the file by its given name and in all locations.
+
+# sophia@venus:~$ find / -name whereismypazz.txt -type f 2>/dev/null
+# usr/share/whereismypazz.txt
+
+-> We used the find command with the following attributes:
+	- '/' -> specifying the find command to search in all available directories in the linux distro.
+	- '-type f' -> specifying the type of search object, in this case we are searching for an object of type (text) file.
+	- '-name whereismypazz.txt' -> specifying the name of the file to be searched for.
+	- '2>/dev/null' -> redirecting any error messages to trash folder or null directory in /dev.
+
+# sophia@venus:~$ cat /usr/share/whereismypazz.txt
+# oh5p9gAABugHBje

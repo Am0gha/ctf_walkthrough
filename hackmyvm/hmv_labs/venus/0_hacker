@@ -1,0 +1,21 @@
+# Login using the following credentials
+
+ssh hacker@venus.hackmyvm.eu -p 5000
+
+pwd: havefun!
+
+Mission 0x01:
+User sophia has saved her password in a hidden file in this folder. Find it and log in as sophia.
+
+Soln:
+
+-> In linux files beginning with "." are hidden and cannot be listed when ls command is used
+-> To discover such file use the same command with -a option
+
+# hacker@venus:~$ ls -a
+# .  ..  ...  .bash_logout  .bashrc  .myhiddenpazz  .profile  mission.txt  readme.txt
+
+-> You can see file beginning with "." so .myhiddenpazz is what we need to check out for
+
+# hacker@venus:~$ cat .myhiddenpazz
+# Y1o645M3mR84ejc

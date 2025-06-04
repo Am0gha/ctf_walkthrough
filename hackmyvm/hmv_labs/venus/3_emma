@@ -1,0 +1,34 @@
+# Login using the following credentials
+
+ssh emma@venus.hackmyvm.eu -p 5000
+
+pwd: fIvltaGaq0OUH8O
+
+Mission 0x04:
+User mia has left her password in the file -.
+
+Soln:
+
+-> The file '-' cannot be opened using cat command normally
+
+# emma@venus:~$ cat -
+
+-> Now the cat command is waiting for your input only to echo it back as output
+
+# emma@venus:~$ cat -
+# hello // My input
+# hello // Output
+# hi // My input
+# hi // Output
+# ^C //To stop the cat program I pressed ctrl+c
+
+-> Therefore we need to opent the file in a specific way using the cat command.
+
+# emma@venus:~$ cat ./-
+# iKXIYg0pyEH2Hos
+
+-> The './' tells the cat command to open a file present in the current directory / active directory we are in.
+-> Hence we are saying open the '-' file present in the current directory.
+-> This is another way of opening files using cat command by referring to its location.
+
+The intuition was to use the cat commands ability to open the files present in other directories without navigating to that directory specific directory. This mechanic enables user to open files with weird names in the present or any directories without much hassle.
