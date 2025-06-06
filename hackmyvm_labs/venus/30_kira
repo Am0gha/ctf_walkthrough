@@ -1,0 +1,58 @@
+# Login to kira user using the following credentials
+
+ssh kira@venus.hackmyvm.eu -p 5000
+
+pwd: tPlqxSKuT4eP3yr
+
+Mission 0x31:
+The user veronica visits a lot http://localhost/waiting.php
+
+Soln:
+
+-> This requires the user to send a custom request using the curl command.
+-> On accessing the webapge the following message is displayed
+
+# kira@venus:~$ curl -vv localhost/waiting.php
+# *   Trying 127.0.0.1:80...
+# * Connected to localhost (127.0.0.1) port 80 (#0)
+# > GET /waiting.php HTTP/1.1
+# > Host: localhost
+# > User-Agent: curl/7.88.1
+# > Accept: */*
+# >
+# < HTTP/1.1 200 OK
+# < Server: nginx/1.22.1
+# < Date: Fri, 06 Jun 2025 14:37:44 GMT
+# < Content-Type: text/html; charset=UTF-8
+# < Transfer-Encoding: chunked
+# < Connection: keep-alive
+# <
+# 
+# Im waiting for the user-agent PARADISE.
+# * Connection #0 to host localhost left intact 
+
+-> If you notice the message it is returning us, it is waiting for the user-agent PARADISE.
+-> We just need to adjust our http request by sending a custom header.
+
+# kira@venus:~$ curl -vv -H "User-Agent: PARADISE" http://localhost/waiting.php
+# *   Trying 127.0.0.1:80...
+# * Connected to localhost (127.0.0.1) port 80 (#0)
+# > GET /waiting.php HTTP/1.1
+# > Host: localhost
+# > Accept: */*
+# > User-Agent: PARADISE
+# >
+# < HTTP/1.1 200 OK
+# < Server: nginx/1.22.1
+# < Date: Fri, 06 Jun 2025 14:39:07 GMT
+# < Content-Type: text/html; charset=UTF-8
+# < Transfer-Encoding: chunked
+# < Connection: keep-alive
+# <
+# 
+# QTOel6BodTx2cwX
+# * Connection #0 to host localhost left intact 
+
+-> Voila! We got the code to the next level.
+
+*Note to self: I'm not aware on concepts related to curl therefore need to learn the stuff behind the command. ;_;
