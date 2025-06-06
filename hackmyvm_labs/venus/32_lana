@@ -1,0 +1,32 @@
+# Login using the following credentials
+
+ssh lana@venus.hackmyvm.eu -p 5000
+
+pwd: UWbc0zNEVVops1v
+
+Mission 0x33:
+The user noa loves to compress her things.
+
+Soln:
+
+-> On listing the active directory there is a zip.gz file lying around
+
+# lana@venus:~$ ls
+# flagz.txt  mission.txt  zip.gz
+
+-> Cannot edit in the active directory due to limited permissions assigned to the users.
+-> Create a new user in '/tmp' directory and copy the zipped file over there.
+
+# lana@venus:~$ mkdir /tmp/..lana
+# lana@venus:~$ cp zip.gz /tmp/..lana/
+
+-> Extract it using gzip or tar (check the type of zip file using 'file' command, it showed me it was a POSIX tar gnu file???)
+
+# lana@venus:~$ tar -xvf zip.gz
+# pwned/lana/zip
+
+-> Open the zip file and voila! you got yourself the password for the next level.
+
+# lana@venus:/tmp/..lana/pwned/lana$ cat zip
+# 9WWOPoeJrq6ncvJ
+

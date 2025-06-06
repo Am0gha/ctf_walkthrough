@@ -1,0 +1,35 @@
+# Login using the following credentials
+
+ssh noa@venus.hackmyvm.eu -p 5000
+
+pwd: 9WWOPoeJrq6ncvJ
+
+Mission 0x34:
+The password of maia is surrounded by trash
+
+Soln:
+
+-> Always, and I say it again. ALWAYS!!! check the working directory for any hidden files. 'ls -a' is your best friend.
+
+# noa@venus:~$ ls -a
+# .  ..  .bash_logout  .bashrc  .profile  flagz.txt  mission.txt  trash
+
+-> And there it is, the trash file!!
+-> Before openning the file, if you are patient enough, try running the following few commands to see first hand what you're dealing with.
+	- 'wc trash'
+	- 'file trash'
+-> Be my guest and jump the gun if you are too eager but all you would find is gibberish and I mean it.
+	- 'cat trash'
+
+-> You would get some binary gibberish (not the gender!!).
+-> Try searching for a string or 'strings'. ;-|)
+-> To be more precise, count the length of the password of each level and you would find that it is of length 16 characters.
+
+# noa@venus:~$ strings -14 trash
+# \nh1hnDPHpydEjoEN
+
+-> Here the 'strings' command was used with the arguement: '-14' specifying the minimum legth of the string to be returned.
+-> i.e. 'strings' should return strings from the trash file with length of atleast 14 characters and no max length cap.
+-> '\n' is the exit sequence for new line, so avoid it and there you have it...
+
+* It's escape sequence, my alzheimer infested brain does some mistakes here and ther every now and then.
