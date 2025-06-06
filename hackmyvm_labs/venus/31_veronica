@@ -1,0 +1,42 @@
+# Login using the following credentials
+
+ssh veronica@venus.hackmyvm.eu -p 5000
+
+pwd: QTOel6BodTx2cwX
+
+Mission 0x32:
+The user veronica uses a lot the password from lana, so she created an alias.
+
+-> The question mentions something about aliases.
+-> When it comes to aliases in linux it is about one of 2 files in question.
+	- '.bashrc'
+	- '.bash_aliases'
+
+-> These 2 files contain the list of aliases, the '.bash_aliases' is the one created by the user.
+-> Checking the active directory for '.bash_aliases' only to find:
+
+# veronica@venus:~$ ls -a
+# .  ..  .bash_logout  .bashrc  .profile  flagz.txt  mission.txt
+
+-> There is only '.bashrc' present.
+-> Lets check for all the available aliases using grep.
+
+# veronica@venus:~$ cat .bashrc | grep alias
+# enable color support of ls and also add handy aliases
+#     alias ls='ls --color=auto'
+#     #alias dir='dir --color=auto'
+#     alias vdir='vdir --color=auto'
+#     alias grep='grep --color=auto'
+#     alias fgrep='fgrep --color=auto'
+#     alias egrep='egrep --color=auto'
+# some more ls aliases
+# #alias ll='ls -l'
+# #alias la='ls -A'
+# #alias l='ls -CF'
+# # ~/.bash_aliases, instead of adding them here directly.
+# if [ -f ~/.bash_aliases ]; then
+#     . ~/.bash_aliases
+# alias lanapass='UWbc0zNEVVops1v'
+
+-> In the last line as you can see there is an alias for lanapass. Enjoy!
+
