@@ -1,0 +1,41 @@
+# Login using the following credentials
+
+ssh camila@venus.hackmyvm.eu -p 5000
+
+pwd: F67aDmCAAgOOaOc
+
+Mission 0x05:
+The user luna has left her password in a file inside the muack folder.
+
+Soln:
+
+-> Let's see if we can find the muack folder in the current directory.
+
+# camila@venus:~$ ls
+# flagz.txt  mission.txt  muack
+
+-> We do have a directory called 'muack'. Checking it out.
+
+# camila@venus:~$ cd muack
+# camila@venus:~/muack$ ls
+# 1    12   140  161  182  202  223  244  265  286  306  327  348  369  39   41   430  451  472  493  513  534  60  81 ..
+
+-> There are about 549 directories present inside the 'muack' folder.
+-> We cannot traverse each of 549 folders to search for a file, therefore using 'find' command we will try to find a file in current directory.
+
+# camila@venus:~/muack$ find ./ -type f 2>/dev/null
+# ./111/111/muack
+
+-> We used the find command with the following attributes:
+	- './' -> to specify the search location to be in current directory (./)
+	- '-type f' -> to specify the type of search object. In our case, file (f) as mentioned in the question.
+
+-> We got the following output, saying there is a file in './111/111/' directory.
+
+# camila@venus:~/muack$ cd 111/111
+# camila@venus:~/muack/111/111$ ls
+# muack
+# camila@venus:~/muack/111/111$ cat muack
+# j3vkuoKQwvbhkMc
+
+
