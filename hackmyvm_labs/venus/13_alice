@@ -1,0 +1,54 @@
+# Login using the following credentials.
+
+ssh alice@venus.hackmyvm.eu -p 5000
+
+pwd: Cgecy2MY2MWbaqt
+
+Mission 0x14:
+The admin has left the password of the user anna as a comment in the file passwd.
+
+Soln:
+
+-> This question requires you to pull of a hunch using something called "cut" command.
+-> Even I'm not well informed regarding the use of this "cut" command.
+-> I looked up the manual of the "cut" command, what it essentially does is cuts sections from each line of files.
+
+-> Lets look at the command we executed:
+
+# alice@venus:~$ cut -d : -f1,5 /etc/passwd | grep alice
+# alice:w8NvY27qkpdePox
+
+-> Disecting the command:
+	- '-d :' -> specifying the delimiter to look for to cut the required string.*
+	- '-f1,5' -> cut and display 1st and 5th section of the file.*
+	- '/etc/passwd' -> was the file in which the password was commented.
+	- '| grep alice' -> pipelining the output of the cut command to grep command to search for 'alice' user.
+
+OR
+
+-> My stupid brain realised there is an easier way to solve the problem.
+
+# alice@venus:~$ cat /etc/passwd | grep alice
+# alice:x:1014:1014:w8NvY27qkpdePox:/pwned/alice:/bin/bash
+
+-> The fifth section is the comment section. Further elaboration given below.
+
+* As mentioned the "cut" command slices the text in given file by considering the given delimiter as the seperating character between 2 strings.
+
+Look at the format of the '/etc/passwd' file.
+
+# alice@venus:~$ tail -5 /etc/passwd
+# belen:x:1048:1048::/pwned/belen:/bin/bash
+# leona:x:1049:1049::/pwned/leona:/bin/bash
+# ava:x:1050:1050::/pwned/ava:/bin/bash
+# maria:x:1051:1051::/pwned/maria:/bin/bash
+# hacker:x:1052:1052::/pwned/hacker:/bin/bash
+
+As you can see there is user_name seperated by ':', which is our delimiter that we mentioned in the command in our case. The 'x' is where passwords were once saved in the older versions of linux now they have been replaced with the letter 'x', seperated by ':' delimiter. Followed by uid and gid each seperated by ':' delimiter, after which you can notice that there are 2 ':' delimiters next to each other as if that field is empty. That field usually contains comments with regards to the respective user.
+
+In the question they have mentioned that the password was saved as a comment in the 'passwd' file.
+
+<username>:<pass>:<uid>:<gid>:<user_specific_comments>:<home_directory_location>:<shell_used_to_login>
+
+<uid> is the userid assigned to the respective user
+<gid> is the groupid, id of the group to which the user is assigned or belongs to.

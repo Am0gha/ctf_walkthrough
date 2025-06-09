@@ -1,0 +1,39 @@
+# Login using the following credentials
+
+ssh lucy@venus.hackmyvm.eu -p 5000
+
+pwd: OCmMUjebG53giud
+
+Mission 0x12:
+The password of the user elena is between the characters fu and ck
+
+Soln:
+
+-> As the mission suggests user elena has saved the password in a file which:
+	- starts with the letters 'fu'
+	- ends with the letters 'ck'
+  :-) Real mature....
+
+-> We know the drill, lets check the active directory again...
+
+# lucy@venus:~$ ls -a
+# .  ..  .bash_logout  .bashrc  .profile  file.yo  flagz.txt  mission.txt
+
+-> We have a file out of place called 'file.yo'.
+-> Let's check the word count of the file.
+
+# lucy@venus:~$ wc file.yo
+#   606   606 12720 file.yo
+
+-> Same here, 606 lines each containing a word.
+-> So again using 'grep' command.
+
+# lucy@venus:~$ grep '^fu.*ck$' file.yo
+# fu4xZ5lIKYmfPLg9tck
+
+-> We used 'grep' command with following arguements:
+	- '^fu' → Line must start with "fu"
+	- '.*'  → Zero or more characters (any characters in between)
+	- 'ck$' → Line must end with "ck"
+
+-> And there we go..

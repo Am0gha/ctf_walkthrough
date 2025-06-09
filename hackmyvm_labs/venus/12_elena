@@ -1,0 +1,44 @@
+# Login using the following credentials
+
+ssh elena@venus.hackmyvm.eu -p 5000
+
+pwd: 4xZ5lIKYmfPLg9t
+
+Mission 0x13:
+The user alice has her password is in an environment variable.
+
+Soln:
+
+-> Ok, we have an environment variable that we need to checkout for.
+-> There are 2 ways to solve it.
+-> One way is to check for the definition of environment variables in the '.bashrc' file.
+-> Environment variable are defined using the keyword 'export', so search for 'export' string in the '.bashrc' file.
+
+# elena@venus:~$ grep 'export' .bashrc
+# #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+# export PASS=Cgecy2MY2MWbaqt
+
+-> As you can see we have an environment variable by the name 'PASS' which contains what seems to be a password.
+-> You can just copy it and yeet this level outta your way.
+
+OR
+
+-> If you can print/list all the environment variables using a single command called 'printenv'
+
+# elena@venus:~$ printenv
+# SHELL=/bin/bash
+# PWD=/pwned/elena
+# LOGNAME=elena
+# MOTD_SHOWN=pam
+# HOME=/pwned/elena
+# LANG=en_US.UTF-8
+# .
+# .
+# .
+# USER=elena
+# PASS=Cgecy2MY2MWbaqt
+# .
+# .
+
+-> You would get an output similar to this, a little bigger than this, scroll down untill you find something odd.
+
