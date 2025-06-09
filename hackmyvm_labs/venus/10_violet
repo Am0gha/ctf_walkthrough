@@ -1,0 +1,47 @@
+# Login using the following credentials
+
+ssh violet@venus.hackmyvm.eu -p 5000
+
+pwd: WKINVzNQLKLDVAc
+
+Mission 0x11:
+The password of the user lucy is in the line that ends with 0JuAZ (these last 5 characters are not part of her password)
+
+Soln:
+
+-> Check for a file in the active directory.
+
+# violet@venus:~$ ls
+# end  flagz.txt  mission.txt
+
+-> We have a file called 'end' lets check it out using 'wc' command and see how big of a file it is.
+
+# violet@venus:~$ wc end
+# 807   807 16947 end
+
+-> 807 line and 807 words, making it a word per line. A lenghty file for sure.
+-> Given the clue we have to search for the strings ending with the given string '0JuAZ' using 'grep' command.
+
+# violet@venus:~$ grep '0JuAZ$' end
+# OCmMUjebG53giud0JuAZ
+
+-> We used the 'grep' command with the following arguements:
+	- '0JuAZ$' -> '0JuAZ' is the substring to be searched present at the end of the string, denoted by '$'.
+	- 'end' -> file name.
+
+-> Using the regular expression we can narrow down our search results fitting our needs.
+
+# NOTE**
+# I'm pasting the example of grep command with its explanation down below for quick reference. 
+
+EXAMPLE
+       The following example outputs the location and contents of any line containing “f” and ending  in  “.c”,  within
+       all files in the current directory whose names contain “g” and end in “.h”.  The -n option outputs line numbers,
+       the  --  argument  treats  expansions of “*g*.h” starting with “-” as file names not options, and the empty file
+       /dev/null causes file names to be output even if only one file name happens to be of the form “*g*.h”.
+
+         $ grep -n -- 'f.*\.c$' *g*.h /dev/null
+         argmatch.h:1:/* definitions and prototypes for argmatch.c
+
+       The only line that matches is line 1 of argmatch.h.  Note that the regular expression syntax used in the pattern
+       differs from the globbing syntax that the shell uses to match file names.
