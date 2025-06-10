@@ -1,0 +1,36 @@
+# Login using the following credentials
+
+ssh anna@veuns.hackmyvm.eu -p 5000
+
+pwd: w8NvY27qkpdePox
+
+Mission 0x15:
+Maybe sudo can help you to be natalia.
+
+Soln:
+
+-> The description of the level is kinda new for me as well.
+-> Looks like it has something to do with 'sudo' command.
+-> Even I couldn't clear the level without some assitance from theshyhat. Checkout his youtube channel for vidoes under the titles "HackMyVM - Venus CTF labs - Level xx" for additional guidance.
+
+-> Apparently in some levels, users are given permissions to run certain commands as sudo users. Although limited privilege is given, knowing what commands a user can be able to execute as root using sudo goes a long way.
+
+-> To check what are the commands you can execute with sudo privilege we use the following command.
+
+# anna@venus:~$ sudo -l
+# Matching Defaults entries for anna on venus:
+#     env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin,
+#     use_pty
+#
+# User anna may run the following commands on venus:
+#     (natalia) NOPASSWD: /bin/bash
+
+-> As you can see we can run '/bin/bash' as 'natalia' user.
+-> 'sudo -l' lists all the command that you can execute using sudo.
+
+# anna@venus:~$ sudo -u natalia /bin/bash
+# natalia@venus:/pwned/anna$
+
+-> '-u' is used to specify which user should sudo execute the command as, in our case the user 'natalia'
+-> and '/bin/bash' is the command to be executed as natalia user.
+
