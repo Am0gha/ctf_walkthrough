@@ -1,0 +1,34 @@
+# Login using the following credentials
+
+ssh natalia@venus.hackmyvm.eu -p 5000
+
+pwd: NMuc4DkYKDsmZ5z
+
+Mission 0x16:
+The password of user eva is encoded in the base64.txt file.
+
+Soln:
+
+-> In this level we have a file base64.txt file which is encoded into some format.
+
+# natalia@venus:~$ ls
+# base64.txt  flagz.txt  mission.txt  nataliapass.txt
+
+-> Let's check the word count of the file.
+
+# natalia@venus:~$ wc base64.txt
+#  1  1 25 base64.txt
+
+-> Nothing to worry about we have a single line with just one word. Further prying it open..
+
+# natalia@venus:~$ cat base64.txt
+# dXBzQ0EzVUZ1MTBmREFPCg==
+
+-> The contents are encoded into base64 format. A tell tale sign if some text is in base64 format is look for '=' signs at the end, or anywhere.
+-> Therefore we need to decode the text, which should give us our password in straight text format.
+-> Using 'base64' command to decode the contents.
+
+# natalia@venus:~$ base64 -d base64.txt
+# upsCA3UFu10fDAO
+
+-> '-d' arguement in 'base64' command to tell the base64 command to decode the given contents from base64 to ASCII text format.
