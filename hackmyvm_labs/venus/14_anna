@@ -34,3 +34,11 @@ Soln:
 -> '-u' is used to specify which user should sudo execute the command as, in our case the user 'natalia'
 -> and '/bin/bash' is the command to be executed as natalia user.
 
+-> Once you are logged in as natalia user using the '/bin/bash' go to natalia's home directory, and look for the password file.
+
+# natalia@venus:/pwned/anna$ cd
+# natalia@venus:~$ ls
+# base64.txt  flagz.txt  mission.txt  nataliapass.txt
+
+-> Open the 'flagz.txt' file and enter the flag in the website to save your progress online.
+
