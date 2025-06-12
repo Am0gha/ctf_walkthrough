@@ -1,0 +1,35 @@
+# Login using the following credentials.
+
+ssh eva@venus.hackmyvm.eu -p 5000
+
+pwd: upsCA3UFu10fDAO
+
+Mission 0x17:
+The password of the clara user is found in a file modified on May 1, 1968.
+
+Soln:
+
+-> Yet again, we are haunted by the 'find' command.
+-> What can I say... The more we try to run away and hide from this command, it 'find's us :-p.
+-> Forgive me for that lame pun.. Moving on.
+
+-> As ranted above in the first few lines, we need to use 'find' command but our refernce point to search the file is a date.
+-> A little lesson on 'find' command when it comes to searching the files by timestamp.
+	
+	- A files timestamp changes when you make any changes to the file.
+	- For some reason linux maintains the timestamp everytime you access the file.
+	- And, yes when you create the file there is a timestamp to signify its time of creation.
+
+-> Here they have mentioned that the file was last 'modified' on May 1, 1968. 1 year and 7 months before the unix timestamp.
+-> So we need to use '-mtime' arguement, specifying the 'find' command to search for files MODIFIED 'n' seconds (or days??) from today.
+
+# eva@venus:~$ find / -type f -mtime +12000 2>/dev/null
+# /usr/lib/cmdo
+
+-> Try using a number larger than 10000 to get any positive result.
+-> '+12000' is the amount of days to be considered for searching. (Modified time older than 12000 days)
+
+# eva@venus:~$ cat /usr/lib/cmdo
+# 39YziWp5gSvgQN9
+
+-> There you have it.
