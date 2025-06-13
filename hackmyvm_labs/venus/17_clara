@@ -103,3 +103,8 @@ Soln:
 # ┌──(amogha㉿Amogha)-[~/hackmyvm_venus]
 # └─$ cat pwned/clara/protected.txt
 # Ed4ErEUJEaMcXli
+
+*NOTE:
+When you give the password hash file that you have generated along with the 'rockyou.txt' file, the 'john' command access the 'rockyou.txt' file, which is a dictionary file containing the hashed value against its original text value.
+
+What you are essentially doing is a textbook dictionary attack (sort off... idk?) onto a zip file to guess the most commonly used passwords. Nothing much complicated.
