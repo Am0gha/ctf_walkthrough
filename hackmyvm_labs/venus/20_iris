@@ -1,0 +1,68 @@
+# In the previous level, we had access to the iris machine. Check the home directory for the password text for iris user.
+# And remember, to enter the flag each level online to keep track of your progress.
+
+# Or login using the following credentials.
+
+ssh iris@venus.hackmyvm.eu -p 5000
+
+pwd: kYjyoLcnBZ9EJdz
+
+Mission 0x21:
+User eloise has saved her password in a particular way.
+
+Soln:
+
+-> Ok so let's check the home directory.
+
+# iris@venus:~$ ls
+# eloise  flagz.txt  irispass.txt  mission.txt
+
+-> We have a file by the name 'eloise'. Let's take a peek at it.
+
+# iris@venus:~$ cat eloise
+# /9j/4AAQSkZJRgABAQEAYABgAAD/4RDSRXhpZgAATU0AKgAAAAgABAE7AAIAAAAEc01MAIdpAAQA
+# AAABAAAISpydAAEAAAAIAAAQwuocAAcAAAgMAAAAPgAAAAAc6gAAAAgAAAAAAAAAAAAAAAAAAAAA
+# AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+# AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+# AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA.....
+# AooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP
+# /9k=
+
+-> Right of the bat, it looks like a base64 encoded file. Cuz it ends with '='.
+-> Let's decode it, and dump its output to a file.
+-> Create a new folder and dump the decoded output in that directory.
+
+# iris@venus:~$ mkdir /tmp/..eloise
+# iris@venus:~$ base64 -d eloise > /tmp/..eloise/decoded
+
+-> Navigate to the directory where the output is saved and check it's file type.
+
+# iris@venus:~$ cd /tmp/..eloise/
+# iris@venus:/tmp/..eloise$ file decodeddecoded: JPEG image data, JFIF standard 1.01, resolution (DPI), density 96x96, 
+# segment length 16, Exif Standard: [TIFF image data, big-endian, direntries=4], baseline, precision 8, 394x102, 
+# components 3
+
+-> We rang a lottery right here. It clearly mentions that it is a jped image data. As we know we cannot open it so, let's download it on to our local machine.
+
+-> Convert the decoded file into base64 and copy the output and paste it onto a file in your local machine using text editor of your choice (nano, gedit, vim,etc).
+
+# iris@venus:/tmp/..eloise$ base64 decode
+# /9j/4AAQSkZJRgABAQEAYABgAAD/4RDSRXhpZgAATU0AKgAAAAgABAE7AAIAAAAEc01MAIdpAAQA                                          # AAABAAAISpydAAEAAAAIAAAQwuocAAcAAAgMAAAAPgAAAAAc6gAAAAgAAAAAAAAAAAAAAAAAAAAA                                          # AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA                                          # AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA                                          # AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA.....                                                   # AooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP                                          # /9k=
+
+-> Decode it but this time dump the output to a file with '.jpeg' extension.
+
+# ┌──(amogha㉿Amogha)-[~/hackmyvm_venus]
+# └─$ base64 -d decoded > decoded.jpeg
+
+# ┌──(amogha㉿Amogha)-[~/hackmyvm_venus]
+# └─$ ls
+# data.txt  decoded  decoded.jpeg
+
+-> You can open the browser and view the image.
+
+# ┌──(amogha㉿Amogha)-[~/hackmyvm_venus]
+# └─$ firefox decoded.jpeg
+#
+# yOUJIV0SHOnbSPm
+
+-> The text is what I typed manually after looking up the image. You can try to extract the text using online tools.
