@@ -1,0 +1,105 @@
+# Login using the following credentials.
+
+ssh clara@venus.hackmyvm.eu -p 5000
+
+pwd: 39YziWp5gSvgQN9
+
+Mission 0x18:
+The password of user frida is in the password-protected zip (rockyou.txt can help you)
+
+Soln:
+
+-> Ok this is the level where you have to put your hacker hats on.
+-> For the first time you need to use a tool inorder to crack the password.
+-> The tool in question is john-the-ripper (not jack the ripper).
+-> If you are using a linux based system you are well and good as you can use apt package manager to install it using the command.
+# sudo apt-get install john -y
+# You can search online for the installaion part.
+
+-> Once you have installed it on to your local machine, now we need to download the zip file from the VM to your local machine.
+-> You can convert the zip file to a base64 string and latter extract the zip file by translating it back from base64 to a file type.
+
+# clara@venus:~$ ls
+# flagz.txt  mission.txt  protected.zip
+
+-> As you can see we have a zip file by the name 'protected.zip'. We cannot unzip it here in the server, because
+	1. You don't have the permission to tamper with the users active directory.
+	2. By default the tool is not installed on to the VM that you are using rn.
+
+-> Now create a base64 dump of the zip file as shown below and copy the output.
+
+# clara@venus:~$ base64 protected.zip
+# UEsDBAoACQAAAIMzhVhzdJ8jHAAAABAAAAAZABwAcHduZWQvY2xhcmEvcHJvdGVjdGVkLnR4dFVU
+# CQAD9pkPZvaZD2Z1eAsAAQQAAAAABAAAAACc/uQ52ED8vSTlcON+hM2vBK6cXas6YlcIf/9rUEsH
+# CHN0nyMcAAAAEAAAAFBLAQIeAwoACQAAAIMzhVhzdJ8jHAAAABAAAAAZABgAAAAAAAEAAACkgQAA
+# AABwd25lZC9jbGFyYS9wcm90ZWN0ZWQudHh0VVQFAAP2mQ9mdXgLAAEEAAAAAAQAAAAAUEsFBgAA
+# AAABAAEAXwAAAH8AAAAAAA==
+
+-> Now head over to you local machine and open up a file using any editor of your choice and paste the output and save it.
+-> In my case I've saved it in the 'protected.b64' file.
+
+# ┌──(amogha㉿Amogha)-[~/hackmyvm_venus]
+# └─$ ls
+# data.txt       decryption.hash  pic.hash  pwned  test.jpeg  trash
+# decrypted.mp4  file.b64         protected.b64
+
+-> Now decode the base64 code using 'base64' command with '-d' arguement and direct the output to it's original file name "protected.zip".
+
+# ┌──(amogha㉿Amogha)-[~/hackmyvm_venus]
+# └─$ base64 -d protected.b64 > protected.zip
+#
+# ┌──(amogha㉿Amogha)-[~/hackmyvm_venus]
+# └─$ ls
+# data.txt       decryption.hash  pic.hash  pwned  test.jpeg  trash
+# decrypted.mp4  file.b64         protected.b64  protected.zip
+
+-> As you can see, we have a the zip file loaded onto our local machine.
+-> Now use the 'zip2john' command to extract the password hash of the zip file by feeding the zip file you want to crack as in input arguement.
+
+# ┌──(amogha㉿Amogha)-[~/hackmyvm_venus]
+# └─$ zip2john protected.zip
+# ver 1.0 efh 5455 efh 7875 protected.zip/pwned/clara/protected.txt PKZIP Encr: 2b chk, TS_chk, cmplen=28, decmplen=16, 
+# crc=239F7473 ts=3383 cs=3383 type=0
+# protected.zip/pwned/clara/protected.txt:$pkzip$1*2*2*0*1c*10*239f7473*0*53*0*1c*3383*9cfee439d840fcbd24e570e37e84cdaf0
+# 4ae9c5dab3a6257087fff6b*$/pkzip$:pwned/clara/protected.txt:protected.zip::protected.zip
+
+-> '$pkzip$1*2*2*0*1c*10*239f7473*0*53*0*1c*3383*9cfee439d840fcbd24e570e37e84cdaf04ae9c5dab3a6257087fff6b*$/pkzip$'
+-> This entire thing here is the password hash. You can redirect the output to a file:
+
+# ┌──(amogha㉿Amogha)-[~/hackmyvm_venus]
+# └─$ zip2john protected.zip > protected.hash
+# ver 1.0 efh 5455 efh 7875 protected.zip/pwned/clara/protected.txt PKZIP Encr: 2b chk, TS_chk, cmplen=28, decmplen=16, 
+# crc=239F7473 ts=3383 cs=3383 type=0
+
+-> Now we need to supply the password hash file that you generated to the 'john' command with a file called 'rockyou.txt'.
+
+# ┌──(amogha㉿Amogha)-[~/hackmyvm_venus]
+# └─$ john protected.hash --wordlist=/usr/share/wordlists/rockyou.txt
+# Using default input encoding: UTF-8
+# Loaded 1 password hash (PKZIP [32/64])
+# No password hashes left to crack (see FAQ)
+
+-> Once the process is finished you can use the command 'john --show <pwd_hash_file_name>' to show the password.
+
+# ┌──(amogha㉿Amogha)-[~/hackmyvm_venus]
+# └─$ john --show protected.hash
+# protected.zip/pwned/clara/protected.txt:pass123:pwned/clara/protected.txt:protected.zip::protected.zip
+# 
+# 1 password hash cracked, 0 left
+
+-> Voila! There you have it. 'pass123'.
+-> Unzip it using 'unzip' command and get the password for the user 'frida'.
+
+# ┌──(amogha㉿Amogha)-[~/hackmyvm_venus]
+# └─$ unzip protected.zip
+# Archive:  protected.zip
+# [protected.zip] pwned/clara/protected.txt password:
+#  extracting: pwned/clara/protected.txt
+# 
+# ┌──(amogha㉿Amogha)-[~/hackmyvm_venus]
+# └─$ ls
+# data.txt       decryption.hash  pic.hash       protected.hash  pwned ...
+# 
+# ┌──(amogha㉿Amogha)-[~/hackmyvm_venus]
+# └─$ cat pwned/clara/protected.txt
+# Ed4ErEUJEaMcXli
