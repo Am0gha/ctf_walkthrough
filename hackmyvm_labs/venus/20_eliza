@@ -1,0 +1,34 @@
+# Login using the following credentials.
+
+ssh eliza@venus.hackmyvm.eu -p 5000
+
+pwd: Fg6b6aoksceQqB9
+
+Mission 0x20:
+The user iris has left me her key.
+
+Soln:
+
+-> Let's check what this is all about by checking the working directory.
+
+# eliza@venus:~$ ls -a
+# .  ..  .bash_logout  .bashrc  .iris_key  .profile  flagz.txt  mission.txt
+
+-> Ok we have a file called '.iris_key' in our working directory.
+-> Now this so called key, is used to login to your remote machine. When you login to your remote machine using ssh, you use your user password to verify that it is really you on the other side that is trying to login.
+-> But there is another way of using ssh to login to your remote machine, without needing the user to input their user password. Using private ssh key.
+-> This is a simple level, we just need to login to the user iris using ssh but instead of just 'ssh'-ing into the machine we need to pass the private key we have using an arguement.
+
+# ssh iris@venus.hackmyvm.eu -i .iris_key -p 5000
+
+# eliza@venus:~$ ssh iris@venus.hackmyvm.eu -i .iris_key -p 5000
+# The authenticity of host '[venus.hackmyvm.eu]:5000 ([185.233.104.77]:5000)' can't be established.
+# ED25519 key fingerprint is SHA256:JQMeqhRR4E5l3ltY/S1hK0srs1Q3KaXzC6Qga/MvPqM.
+# This key is not known by any other names.
+# Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+# Could not create directory '/pwned/eliza/.ssh' (Permission denied).
+# 
+# Last login: Thu Jun 12 16:22:10 2025 from ::1
+# iris@venus:~$
+
+-> There you go. That's it.
