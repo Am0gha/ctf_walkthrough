@@ -1,0 +1,37 @@
+# Login using the following credentials.
+
+ssh eloise@venus.hackmyvm.eu -p 5000
+
+pwd: yOUJlV0SHOnbSPm
+
+Mission 0x22:
+User lucia has been creative in saving her password.
+
+Soln:
+
+-> Let's check the working directory.
+
+# eloise@venus:~$ ls -a
+# .  ..  .bash_logout  .bashrc  .profile  flagz.txt  hi  mission.txt
+
+-> Suspicious looking file 'hi' has popped up...
+-> Word count of the 'hi' file is...
+
+# eloise@venus:~$ wc hi
+#  1  9 50 hi
+
+-> Strange a single line with just 9 characters. Let's open it up.
+
+# eloise@venus:~$ cat hi
+# 00000000: 7576 4d77 4644 5172 5157 504d 6547 500a
+
+-> Sweet... a hex dump people.
+-> By the look of it, contains a combination of alphabets and numbers as well. And we all know very well for a fact that this thing only occurs in one of the well known counting types. Where the numbers are clustered in a group of 4.
+-> In short it's in hexadecimal. So we gotta translate it in order to extract password.
+
+# eloise@venus:~$ xxd -r hi
+# uvMwFDQrQWPMeGP
+
+-> That was easy.. Similar to what we used to do when we encountered base64 encoded files, we decoded it in case of base64. In this case where the files are in hexadecimal format, we revert them using the 'xxd' command.
+
+-> Here the 'xxd' command creates a hex dump file or reverts the hex dump file into their original format. using '-r' arguement to revert the input to it's original format. Voila! We have our password monsieur...Bon apetit...
