@@ -1,0 +1,49 @@
+# Login using the following credentials.
+
+ssh frida@venus.hackmyvm.eu -p 5000
+
+pwd: Ed4ErEUJEaMcXli
+
+Mission 0x19:
+The password of eliza is the only string that is repeated (unsorted) in repeated.txt.
+
+Soln:
+
+-> Check the working directory for the mentioned file.
+
+# frida@venus:~$ ls
+# flagz.txt  mission.txt  repeated.txt
+
+-> Checking the word count of the file to see if it is ok to open it.
+
+# frida@venus:~$ wc repeated.txt
+# 4591  4591 73456 repeated.txt
+
+-> Nuh uh...
+-> Ok so we need to find the password of eliza which is the only string that is repeated in an unsorted repeated.txt file.
+-> To find the unique words present in a file we use the 'uniq' command along with an arguement as shown below.
+
+# frida@venus:~$ cat repeated.txt | uniq -c
+# 1 d759de7188e8d0e
+# 1 34457a46b3251b9
+# 1 1cea2435c4ca436
+# 1 973a0eb3eb8c9e8
+# ...
+
+-> Outputs the times the string has been repeated in the entire file along with the string in question.
+-> Now create a directory in '/tmp' and dump the output into a txt file.
+
+# frida@venus:~$ mkdir /tmp/..tec
+# frida@venus:~$ cat repeated.txt | uniq -c > /tmp/..tec/test
+
+-> Navigate to the directory.
+
+# frida@venus:~$ cd /tmp/..tec/
+
+-> Using the 'grep' command search for number greater than 1.
+
+# frida@venus:/tmp/..tec$ grep -v 1 test
+#       2 Fg6b6aoksceQqB9
+
+-> Here the '-v' arguement is passed to do 'invert match' i.e. exclude the strings or lines containing the given string / character. In our case it was '1' which I mentioned right after the arguement.
+-> Voila there you have the password!.
