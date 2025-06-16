@@ -4,7 +4,7 @@ Welcome to my collection of walkthroughs for the **HackMyVM Venus CTF series**. 
 
 ### 🧠 What is Venus?
 
-Venus is a CTF-style challenge hosted by [HackMyVM](https://hackmyvm.eu). Each level tests your practical Linux knowledge using riddle-like tasks. You'll need to think like a system user rather than a hacker, navigating the filesystem and using native commands to uncover clues and passwords.
+Venus is a CTF-style challenge hosted by [HackMyVM](https://hackmyvm.eu). Each level tests your practical Linux knowledge using riddle-like tasks. Testing your linux knowledge as a user, navigating the filesystem and using native commands to uncover clues and passwords.
 
 ### 📁 What's in this repo?
 
