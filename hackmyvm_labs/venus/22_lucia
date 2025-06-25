@@ -1,0 +1,66 @@
+# Login using the following credentials.
+
+ssh lucia@venus.hackmvym.eu -p 5000
+
+pwd: uvMwFDQrQWPMeGP
+
+Mission 0x23:
+The user isabel has left her password in a file in the /etc/xdg folder but she does not remember the name, however she has dict.txt that can help her to remember.
+
+Note: You can follow the video by theshyhat for the same problem. Link given below. I could understand the method but it felt a little to clunky IMO. I'm a lazy bum with ADHD.
+
+LINK: https://www.youtube.com/watch?v=_0v6ONSdrpU&t=235s
+
+Soln:
+
+-> This requires one to have some bash scripting knowledge.
+-> There are 2 solutions to this question. One using something called as 'xargs' and the other way is to write a shell / bash script to iteratively search for the file using the contents present in the 'dict.txt' file.
+
+-> I will be doing the scripting method.
+
+-> Think of it as you are writing code in python. What would you do in python..??
+-> You would take the file and save the words into a variable / a list and then using a loop you would check for the files existence... Crude but its the bare bone explanation that suits best.
+
+###BASH_SCRIPT###
+
+#!/bin/bash
+
+dict="/var/tmp/soln/dict.txt"
+
+while read -r word; do
+        if [[ -r "/etc/xdg/$word" ]]; then
+                echo "Found a file at /etc/xdg/$word"
+        fi
+
+done < "$dict"
+######
+
+-> All the bash scripts begins with the line '#!/bin/bash', the shebang. Used to instruct the operating system to use bash as a command interpreter.
+
+-> Defined a variable by the name 'dict'. Storing the path of the 'dict.txt' file containing the list of file names out of which one exists.
+
+-> Using a 'while' loop you would take an input using the 'read' command with '-r' arguement, meaning recursive input/multiline input.
+
+-> Using 'if' condition to check if the said file exists or not in the '/etc/xdg' directory or not.
+	- If it does, it would output a line to the bash "Found a file at /etc/xdg/<file_name>".
+
+-> To close the 'if' condition you need to mention 'fi'
+
+-> Now we would not be giving individual inputs of the contents of the 'dict.txt' file. Therefore you need to feed a file, hence we feed the 'dict' variable we defined beforehand locating the 'dict.txt' file and feeding it to the shell.
+
+-> Give the script 'execute' permission using 'chmod'.
+
+# lucia@venus:/var/tmp/soln$ chmod u+x script.sh
+
+-> Run the script.
+
+# lucia@venus:/var/tmp/soln$ ./script.sh
+# Found a file at /etc/xdg/readme
+
+-> Read the file.
+
+# lucia@venus:/var/tmp/soln$ cat /etc/xdg/readme
+# H5ol8Z2mrRsorC0
+
+
+-> Done!!!
