@@ -1,0 +1,39 @@
+# Login using the following credentials.
+
+ssh isabel@venus.hackmyvm.eu -p 5000
+
+pwd: H5ol8Z2mrRsorC0
+
+Mission 0x24:
+The password of the user freya is the only string that is not repeated in different.txt
+
+Soln:
+
+-> This problem here requires us to find a string that hasn't been repeated in the "different.txt" file. 
+
+-> The solution is a mix of cat,uniq and grep command. (Get a 'grep' over it... Get it??)
+
+-> First what we want is to store the sorted version of the file. As you can check the file how many lines / words it holds.
+
+-> Using the following command we will create a sorted file with uniq strings and their respective counts.
+
+# isabel@venus:~$ cat different.txt | sort | uniq -c > /var/tmp/soln/isabel_pwd_file
+
+-> Now that we have the sorted file, it would be in the following fomat.
+
+# 2 00010b0765c11cc
+# 2 00205d587090943
+# 2 00213023c9abfbe
+# 2 002b4e53be7876f
+# 2 0034acdf29fb163
+# ...
+# ...
+
+-> '<count> <string>' is the format. These are sorted in the manner that starting with numbers moving on to the alphabets.
+
+-> Now we need to find a string whose count is 1, we can do so using the 'grep' command.
+
+# isabel@venus:/var/tmp/soln$ grep '1 ' isabel_pwd_file
+#       1 EEDyYFDwYsmYawj
+
+-> This level was as simple as that.
