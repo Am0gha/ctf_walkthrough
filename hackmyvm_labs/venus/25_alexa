@@ -1,0 +1,21 @@
+# Login using the following credentials.
+
+ssh alexa@venus.hackmyvm.eu -p 5000
+
+pwd: mxq9O3MSxxX9Q3S
+
+Mission 0x26:
+The password of the user ariel is online! (HTTP)
+
+Soln:
+
+-> It means they have hosted a website locally and we need to access it, which can be done so using the 'curl' command.
+
+-> 'curl' command returns the HTML webpage of the specified URL.
+
+-> As the website his hosted locally we can access it using 'localhost'.
+
+# alexa@venus:~$ curl localhost
+# 33EtHoz9a0w2Yqo
+
+-> Using curl we can access the HTML version of the webpage.
