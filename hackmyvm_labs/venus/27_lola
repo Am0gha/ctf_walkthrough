@@ -1,0 +1,61 @@
+# Login using the following credentials.
+
+ssh lola@venus.hackmyvm.eu -p 5000
+
+pwd: d3LieOzRGX5wud6
+
+Mission 0x28:
+The user celeste has left a list of names of possible .html pages where to find her password.
+
+Soln:
+
+-> First let's check out the current directory for any new files.
+
+# lola@venus:~$ ls -a
+# .  ..  .bash_logout  .bashrc  .profile  flagz.txt  mission.txt  pages.txt
+
+-> As you can see there is a file called pages.txt, let's check the word count of the file.
+
+# lola@venus:~$ wc pages.txt
+#  136  135 1438 pages.txt
+
+-> There are about 136 pages to check for. There are 2 ways to do so.
+	- One way is to copy the pages file to '/tmp' directory and add html at the end of each word in the pages.txt and write a script to access each one of them.
+	- Or, whenever someone hosts a html file locally they are always stored in the '/var/www/html' directory in case of linux distributions. Therefore we can headover there and try all possible html files present in that directory.
+
+-> We will do it the easy way out.
+-> Head over to the '/var/www/html' directory and list check for it's content.
+
+# lola@venus:~$ cd /var/www/html
+# lola@venus:/var/www/html$ ls
+# cebolla.html  index.html  index.nginx-debian.html  key.php  method.php  waiting.php
+
+-> There is 'index.html' and then there is 'cebolla.html'. Let's access them both.
+
+# lola@venus:/var/www/html$ curl localhost/index.html
+# 33EtHoz9a0w2Yqo
+# lola@venus:/var/www/html$ curl localhost/cebolla.html
+# VLSNMTKwSV2o8Tn
+
+-> If you can recall the last challenge, the output of 'index.html' matches the one where we just used 'curl localhost'.
+-> Hence it cannot be the password of the 'celeste' user.
+-> Therefore the 'cebolla.html' should contain the password. Let's check it using "hydra" command.
+
+# ┌──(amogha㉿Amogha)-[~]
+# └─$ hydra -s 5000 -l celeste -p VLSNMTKwSV2o8Tn venus.hackmyvm.eu ssh
+# Hydra v9.5 (c) 2023 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+# 
+# Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2025-06-28 18:42:32
+# [WARNING] Many SSH configurations limit the number of parallel tasks, it is recommended to reduce the tasks: use -t 4
+# [DATA] max 1 task per 1 server, overall 1 task, 1 login try (l:1/p:1), ~1 try per task
+# [DATA] attacking ssh://venus.hackmyvm.eu:5000/
+# [5000][ssh] host: venus.hackmyvm.eu   login: celeste   password: VLSNMTKwSV2o8Tn
+# 1 of 1 target successfully completed, 1 valid password found
+
+-> If this doesn't sound like bingo! I do not know what does...
+
+# VLSNMTKwSV2o8Tn
+
+-> If you want to know do it the other way around, adding html at the end, writing a script to curl each one of them, you can do so by following the tutorial linked below by 'theshyhat' channel in youtube.
+
+Link: https://www.youtube.com/watch?v=pr3_lN8He0s
