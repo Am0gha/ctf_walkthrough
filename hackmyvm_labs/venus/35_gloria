@@ -1,0 +1,78 @@
+# Login using the following credentials.
+
+ssh gloria@venus.hackmvym.eu -p 5000
+
+pwd: v7xUVE2e5bjUcxw
+
+Mission 0x36:
+User alora likes drawings, that's why she saved her password as ...
+
+Soln:
+
+-> Check for other files in the active directory of the 'gloria' user.
+
+# gloria@venus:~$ ls
+# flagz.txt  image  mission.txt
+
+-> We have a file called 'image', let's check the type of the file.
+
+# gloria@venus:~$ file image
+# image: ASCII text
+
+-> It is an ASCII text file..?? Checking the word count.
+
+# gloria@venus:~$ wc image
+#   31  146 1713 image
+
+-> Looks printable, let's open it up.
+
+# gloria@venus:~$ cat image
+# 
+# ##########################################################
+# ##########################################################
+# ##########################################################
+# ##########################################################
+# ########              ##########  ##              ########
+# ########  ##########  ##    ##  ####  ##########  ########
+# ########  ##      ##  ##  ##  ######  ##      ##  ########
+# ########  ##      ##  ####  ########  ##      ##  ########
+# ########  ##      ##  ##        ####  ##      ##  ########
+# ########  ##########  ##        ####  ##########  ########
+# ########              ##  ##  ##  ##              ########
+# ########################  ####  ##########################
+# ########    ##  ####    ####  ##  ##      ##    ##########
+# ############    ######  ##    ##      ##          ########
+# ########    ##    ##  ##  ##            ####  ##  ########
+# ##############      ##  ##    ######  ##    ####  ########
+# ############    ##      ##  ########    ##  ##  ##########
+# ########################    ####    ##  ##  ####  ########
+# ########              ##    ####            ##  ##########
+# ########  ##########  ######  ##########  ####  ##########
+# ########  ##      ##  ####  ##      ######        ########
+# ########  ##      ##  ##    ##  ######  ##  ####  ########
+# ########  ##      ##  ####          ##    ##  ##  ########
+# ########  ##########  ##      ####  ##  ##################
+# ########              ##  ##                    ##########
+# ##########################################################
+# ##########################################################
+# ##########################################################
+# ##########################################################
+
+-> Okay.... A QR code in a file. I thought I had seen it all, but these CTF challenges speak otherwise. Anywho...
+-> We have a tool in linux by the name 'zbarimg', install it onto your local linux mahcine using the following command.
+
+# sudo apt-get insatll zbar-tools -y
+
+-> Once you have installed the tool, copy the text file called 'image' onto the local machine and shrink it to a size that all the '#' looks as if they are tiny dots, resembling any normal QR-code.
+
+-> Using a screenshot tool, take a screenshot of the resulting image and save it as an image file.
+
+-> Using the 'zbarimg' tool you can read QR codes by passing the files as input.
+
+# ┌──(amogha㉿Amogha)-[~/hackmyvm_venus/gloria]
+# └─$ zbarimg qrcode.png
+# QR-Code:mhrTFCoxGoqUxtw
+# 
+# scanned 1 barcode symbols from 1 images in 0 seconds
+
+-> There you have it. Although you can use your mobile phone to scan it and get it done but still, it is advised to use tools built in linux to solve the CTF challenges.
