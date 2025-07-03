@@ -1,0 +1,24 @@
+
+# Login using the following credentials.
+
+ssh freya@venus.hackmyvm.eu -p 5000
+
+pwd: EEDyYFDwYsmYawj
+
+Mission 0x25:
+User alexa puts her password in a .txt file in /free every minute and then deletes it.
+
+Soln:
+
+-> This question here poses a new topic in linux, called automation of tasks. Automation of task in linux can be done using a tool called 'crontab'.
+
+-> Using the following crontab command you can see what is going on here.
+
+# freya@venus:~$ crontab -l
+# ....
+# ....
+# */1 * * * * freya echo "mxq9O3MSxxX9Q3S" > /free/beer.txt ; rm -f /free/beer.txt
+
+-> Disclaimer: While solving this CTF I accidentally deleted the original crontab in which there were 2 jobs written. One of them was establishing a hard link to a file that already exists and the other one deletes it instantly every minute.
+
+-> Hence I had to make it up for. As I forgot what the file to which the link was being created and the subsequent command. Therefore I tried to amend it in my own way. 
