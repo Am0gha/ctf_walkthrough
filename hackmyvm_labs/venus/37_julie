@@ -1,0 +1,37 @@
+# Login using the following credentials.
+
+ssh julie@venus.hackmyvm.eu -p 5000
+pwd: sjDf4i2MSNgSvOv
+
+Mission 0x38:
+The user irene believes that the beauty is in the difference.
+
+Soln:
+
+-> Difference is a command used to find the difference between the contents of given 2 files. The command in question to be used it 'diff'.
+
+-> Let's check the active directory for any files to find difference between.
+
+# julie@venus:~$ ls
+# 1.txt  2.txt  flagz.txt  mission.txt
+
+-> We have 2 files to check out for. '1.txt' and '2.txt'. You can see check the manual for the 'diff' command using : "man diff" command.
+
+# julie@venus:~$ diff 1.txt 2.txt
+# 174c174
+# < 8VeRLEFkBpe2DSD
+# ---
+# > aNHRdohjOiNizlU
+
+-> As you can see there is a difference in both the files, or a line differs in both the files. Copy the output onto your local machine, as we have 2 lines or 2 passwords that we need to try out for the irene user.
+
+-> Copying the output to our local machine we need to use hydra to find the right password among the both. By using the following command:
+
+# ┌──(amogha㉿Amogha)-[~/hackmyvm_venus/julie]
+# └─$ hydra -s 5000 -l irene -P pwd venus.hackmyvm.eu ssh
+# ...
+# [5000][ssh] host: venus.hackmyvm.eu   login: irene   password: 8VeRLEFkBpe2DSD
+# ...
+
+-> There we go, we found the right password. That is...
+# 8VeRLEFkBpe2DSD
