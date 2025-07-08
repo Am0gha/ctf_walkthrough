@@ -1,0 +1,31 @@
+# Login using the following credentials
+
+ssh alora@venus.hackmyvm.eu -p 5000
+pwd: mhrTFCoxGoqUxtw
+
+Mission 0x37:
+The user julie has created an iso with her password.
+
+-> Check the active directory for iso files.
+
+# alora@venus:~$ ls
+# flagz.txt  mission.txt  music.iso
+
+-> We have 'music.io'. Convert it into base64 using the base64 command and paste the output onto a file on your local machine.
+
+-> In my case I saved it in the '~/hackmyvm_venus/alora' directory. Be carefull, and try to do it in a "nano" or "gedit" file editor, tried doing it on vim and it just lagged or hanged the instance.
+
+-> Extract the iso file using the following command.
+
+# cat music.b64 | base64 -d > music.iso
+
+-> This would create a 'music.iso' file onto your local machine. Using the file explorer on your machine, you can navigate into the iso file and extract the contents out of it.
+
+-> you would find a 'music.zip' file inside the iso file. Extract it outside of the iso file using 'extract' option from extra options in file explorer.
+
+-> Extract the zip file and you would find the 'pwned' directory. It has 'alora' folder inside of it, which consists of a text file with the password in it by the name 'music.txt'.
+
+-> Open it and you would find the password for the 'julie' user.
+
+# sjDf4i2MSNgSvOv
+
