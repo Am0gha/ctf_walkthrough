@@ -1,0 +1,46 @@
+# Login using the following credentials.
+
+ssh irene@venus.hackmyvm.eu -p 5000
+pwd: 8VeRLEFkBpe2DSD
+
+Mission 0x39:
+The user adela has lent her password to irene.
+
+Soln:
+
+-> Here the target user seems to be "adela" and by the description of the task, the user "irene" already has the password for it. Let's begin from the active directory to search for extra files.
+
+# irene@venus:~$ ls
+# flagz.txt  id_rsa.pem  id_rsa.pub  mission.txt  pass.enc
+
+-> Okay, not 1 but 3 new files, 'id_rs.pem','id_rsa.pub' and 'pass.enc'. Even I was clueless on how to work with this. I almost confused the next step to be using one of these files as a private key to remotely ssh into 'adela' user. Which it doesn't seem to be the case.
+
+-> I intially confused the following stage having to do something with ssh. As we can see we have a public key and then we have a private key. Openssl and Openssh / ssh pretty much generate keys in a similar way, a pair of private and public keys. Hence the confusion.
+
+-> But it turns out using Openssl you can generate a pair of keys that can be used to encrypt and decrypt files.
+
+-> Now to solve this challenge we need to copy those 3 files onto our local directory. Just print the contents of the files and then copy paste them onto a file each in a seperate file. Make sure all the files are stored in the same directory. As we need all of them under one folder to use Openssl command to complete the challenge.
+
+-> We would be using something called 'pkeyutl' command present in the openssl command. As per it's manual file, you can use this command to perform low-level operations on asymetric keys using any supported algorithm. 
+
+-> In simple english, you can use the key pair to encrypt files, in this case using 'pkeyutl' to use the keys to decrypt the files encrypted using the private-public key pair, which fortunately we seem to have been given access to.
+
+-> Follow along, or should I say type along.
+
+# openssl pkeyutl -in pass.enc -inkey id_rsa.pem -decrypt -out pass.txt
+
+-> That was mouthfull, but no need to remember this entire charade of a command. Just remember to look up for 'man openssl-pkeytul', you would find all the options in plain english explained, what each option does. So that was me figuring out while wrting this command up on spot simultaneously looking at the man file for openssl-pkeyutl and figuring out the structure of the command. (Got it in a single try, sheesh...).
+
+-> If you are in a hurry look no further:
+	- '-in' -> Specify the input filename to read data from or stdin (Standard Input) if this option is not specified. In our case, we want the contents of the file 'pass.enc' to be read, but decrypted first.
+
+	- '-inkey' -> Specify the private key to be used for decryption, in our case 'id_rsa.pem'.
+
+	- '-decrypt' -> Comands openssl to decrypt the input data using the private key.
+
+	- '-out' -> Used to redirect the decrypted output to a file, in our case 'pass.txt'. You can even mention the full address of the directory along with the file name.
+
+
+**NOTE
+
+In openssl, public key is used to encrypt the files.
