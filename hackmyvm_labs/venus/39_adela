@@ -1,0 +1,48 @@
+# Login using the following credentials.
+
+ssh adela@venus.hackmyvm.eu -p 5000
+pwd: nbhlQyKuaXGojHx
+
+Mission 0x40:
+User sky has saved her password to something that can be listened to.
+
+Soln:
+
+-> We have been through QR codes, Images, and now we have to deal with music.. Nice!!
+
+-> As always, check the active directory for new files.
+
+# adela@venus:~$ ls
+# flagz.txt  mission.txt  wtf
+
+-> Ok we have a file by the name 'wtf'. Let's check what kind of file it is using the "file" command.
+
+# adela@venus:~$ file wtf
+# wtf: ASCII text
+
+-> That's odd, we expected a file containing audio but... Printing it's contents.
+
+# adela@venus:~$ cat wtf
+# .--. .- .--. .- .--. .- .-. .- -.. .. ... .
+
+-> Morse code, clever..
+-> Go to any online morese code translator and feed this output for it to translate. It's translation would be.
+
+# PAPAPARADISE
+
+-> That's it, we have the password. Do note that Morse code cannot differentiate between uppercase letters and lowercase letters. Therefore, try the password in both uppercase as well as lowercase as well.
+
+# ┌──(amogha㉿Amogha)-[~/hackmyvm_venus/irene]
+# └─$ hydra -l sky -p PAPAPPARADISE -s 5000 venus.hackmyvm.eu ssh
+# ...
+# 1 of 1 target completed, 0 valid password found
+
+# ┌──(amogha㉿Amogha)-[~/hackmyvm_venus/irene]
+# └─$ hydra -l sky -p papaparadise -s 5000 venus.hackmyvm.eu ssh
+# ...
+# [5000][ssh] host: venus.hackmyvm.eu   login: sky   password: papaparadise
+# 1 of 1 target successfully completed, 1 valid password found
+
+-> There we go, we got the password which is:
+
+# papaparadise
