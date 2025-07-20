@@ -1,0 +1,65 @@
+# Login using the following credentials.
+
+ssh karla@venus.hackmyvm.eu -p 5000
+pwd: gYAmvWY3I7yDKRf
+
+Mission 0x45:
+User denise has saved her password in the image.
+
+Soln:
+
+-> Okay... Denise, let's see what we have here in your home directory.
+
+# karla@venus:~$ ls
+# flagz.txt  mission.txt  yuju.jpg
+
+-> We cannot view the contents of the image 'yuju.jpg' file. Hence, convert it into base64 string using the following command :
+
+# base64 yuju.jpg
+
+-> Copy the ouput of the command into a file on you local machine, and save it as 'yuju.b64'. Don't bother with the name, keep it anything you like.
+
+-> Decode the now 'yuju.b64' file and redirect the output to the original file name and it's extension.
+
+# base64 -d yuju.b64 > yuju.jpg
+
+-> Now open the file and you could see that it's just a picture of the birth of the venus...??? (Had to reverse search the image through google.)
+
+-> That doesn't make any sense in itself. Lets try to print the strings present in the raw jpg file. Maybe we can find some luck in there.
+
+# ┌──(amogha㉿Amogha)-[~/hackmyvm_venus/karla]
+# └─$ strings yuju.jpeg
+# JFIF
+# Exif
+# 2021:11:01 10:34:51
+# 2021:11:01 10:34:51
+# http://ns.adobe.com/xap/1.0/
+# <?xpacket begin='
+# ...
+# ...
+#  <rdf:Description rdf:about='pFg92DpGucMWccA'
+#  	xmlns:dc='http://purl.org/dc/elements/1.1/'>
+# ...
+
+-> We struck gold...!!! If we look at the beginning few lines of the output you could see in the '<rdf:Description rdf: about: ' field, we have a string that looks very similar to the passwords each level has. It should have contained something else, will dig deeper into that part.
+
+-> There is another way of doing this. Using a tool called 'exiftool', you can install it onto your local linux based machines by running the following command:
+
+# sudo apt install exiftool
+
+-> The 'exiftool' is a forensic tool used to check the metadata of the given file. Execute the following command to check the metadata of the 'yuju.jpg' file.
+
+# ┌──(amogha㉿Amogha)-[~/hackmyvm_venus/karla]
+# └─$ exiftool yuju.jpeg			# <-- This command in this line right here, not the entire thing.
+# ExifTool Version Number         : 13.25
+# File Name                       : yuju.jpeg
+# ...
+# ...
+# About                           : pFg92DpGucMWccA
+# ...
+# Megapixels                      : 0.205
+# Create Date                     : 2021:11:01 10:34:51.95
+# Date/Time Original              : 2021:11:01 10:34:51.95
+
+-> It gives you a lot of information ranging from the time of the file's creation, last time modified, image size, author, tools used to create the immage, source of the image, etc.
+
