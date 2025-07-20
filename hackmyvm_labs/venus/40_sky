@@ -1,0 +1,66 @@
+# Login using the following credentials.
+
+ssh sky@venus.hackmyvm.eu -p 5000
+pwd: papaparadise
+
+Mission 0x41:
+User sarah uses header in http://localhost/key.php.
+
+Soln:
+
+-> This is another question where our knowledge regarding 'curl' command is checked. The question suggests that user sarah uses header in 'localhost/key.php'. Indicating there might be a password hidden in the page 'key.php'.
+
+-> Let's just use curl to check the "localhost/key.php"
+
+# sky@venus:~$ curl localhost/key.php
+# 
+# Key header is true?
+
+-> It is suggesting something with respect to a header by the name 'key' being true. So let's curl it with "-v" to know more.
+
+# sky@venus:~$ curl -v localhost/key.php
+# *   Trying 127.0.0.1:80...
+# * Connected to localhost (127.0.0.1) port 80 (#0)
+# > GET /key.php HTTP/1.1
+# > Host: localhost
+# > User-Agent: curl/7.88.1
+# > Accept: */*
+# >
+# < HTTP/1.1 200 OK
+# < Server: nginx/1.22.1
+# < Date: Sun, 20 Jul 2025 10:22:04 GMT
+# < Content-Type: text/html; charset=UTF-8
+# < Transfer-Encoding: chunked
+# < Connection: keep-alive
+# <
+# 
+# Key header is true?
+# * Connection #0 to host localhost left intact
+
+-> As you can see once you curl the localhost/key.php, it sends a 'GET' request to the url. 'GET' request fetches the contents from the server where the url points to.
+
+-> Now we need to play with it a little, let's try sending some data, or a header precisely called as "key" holding the value "true".
+
+# sky@venus:~$ curl -v -X POST -H "key:true" localhost/key.php
+# *   Trying 127.0.0.1:80...
+# * Connected to localhost (127.0.0.1) port 80 (#0)
+# > POST /key.php HTTP/1.1
+# > Host: localhost
+# > User-Agent: curl/7.88.1
+# > Accept: */*
+# > key:true
+# >
+# < HTTP/1.1 200 OK
+# < Server: nginx/1.22.1
+# < Date: Sun, 20 Jul 2025 10:16:31 GMT
+# < Content-Type: text/html; charset=UTF-8
+# < Transfer-Encoding: chunked
+# < Connection: keep-alive
+# <
+# 
+# * Connection #0 to host localhost left intact
+# LWOHeRgmIxg7fuS
+
+-> To send some data to the url we use the "POST" request. Now that we sent a "POST" request with the "key:true" as the value, we got something that looks like a password.
+
+-> That's it folks.
