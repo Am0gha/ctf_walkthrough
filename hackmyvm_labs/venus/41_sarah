@@ -1,0 +1,28 @@
+# Login using the following credentials.
+
+ssh sarah@venus.hackmyvm.eu -p 5000
+pwd: LWOHeRgmIxg7fuS
+
+Mission 0x42:
+The password of mercy is hidden in this directory.
+
+Soln:
+
+-> Back to our old ways, when something is hidded, it always begins with a dot '.', so you know what to do...
+
+sarah@venus:~$ ls -a
+.  ..  ...  .bash_logout  .bashrc  .profile  flagz.txt  mission.txt
+
+-> Nothing seems to be out of the ordinary at the very first sight, but if you would care to squint your eyes and pay close attention you would notice that, when you use the 'ls -a' command, the first 2 directories shown would be a single and a double dot ('. .. .bash_logout ___'), and never ever there was something with triple dots ('...'). Don't be Sarah.
+
+-> Lets check what it is using the file command.
+
+# sarah@venus:~$ file ./...
+# ./...: ASCII text
+
+-> Ahaaa... We have got outselves a text file. Let's open it up.
+
+# sarah@venus:~$ cat ./...
+# ym5yyXZ163uIS8L
+
+-> PSA: Don't be like sarah, storing passwords in plain sight hidding with dots. Do better. Even a rookie like me can spot such anomalies.
