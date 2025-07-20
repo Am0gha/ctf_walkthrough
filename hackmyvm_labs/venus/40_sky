@@ -33,7 +33,6 @@ Soln:
 # < Transfer-Encoding: chunked
 # < Connection: keep-alive
 # <
-# 
 # Key header is true?
 # * Connection #0 to host localhost left intact
 
