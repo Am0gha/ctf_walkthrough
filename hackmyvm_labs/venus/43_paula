@@ -1,0 +1,45 @@
+# Login using the following credentials.
+
+ssh paula@venus.hackmyvm.eu -p 5000
+pwd: dlHZ6cvX6cLuL8p
+
+Mission 0x44:
+The user karla trusts me, she is part of my group of friends.
+
+Soln:
+
+-> Ok, so the user karla is a part of a group, which may go by the name of the 'friends', that's yet to be checked.
+
+-> So let's just 'id' the current user and this 'karla' user to check if they do belong to some sort of common groups.
+
+# paula@venus:~$ id
+# uid=1044(paula) gid=1044(paula) groups=1044(paula),1053(hidden)
+# paula@venus:~$ id karla
+# uid=1045(karla) gid=1045(karla) groups=1045(karla)
+
+-> The user 'karla' belongs to her very own group 'karla' bearing the gid=1045, but the user 'paula' does not only belong to her own group, another group called 'hidden' with gid=1053.
+
+-> On searching the '/etc/group' file using the 'grep' command, we indeed see a group called 'hidden', with only one user as the member, that being 'paula'.
+
+# paula@venus:~$ cat /etc/group | grep 1053
+# hidden:x:1053:paula
+
+-> Let's try to check all the commands that are given to the user "paula" under the "hidden" group.
+
+# paula@venus:~$ sudo -l
+# [sudo] password for paula: dlHZ6cvX6cLuL8p
+# Sorry, user paula may not run sudo on venus.
+
+-> Okay... that leads us nowhere. Usually when there are some new groups created they are created with the idea of isolationg the amount of commands a user belonging to certain group can run, limiting the privileges. If we are unable to get any results for 'sudo -l' command then there is now way we can access the sudoers files as well. (Duh... isn't it a fact???)
+
+-> Let's check if there are any files exists with the group "hidden" being the group owner of the file.
+
+# paula@venus:~$ find / -group hidden 2>/dev/null
+# /usr/src/.karl-a
+
+-> That was convenient.. Open the file and....
+
+# paula@venus:~$ cat /usr/src/.karl-a
+# gYAmvWY3I7yDKRf
+
+-> That's it folks. 
