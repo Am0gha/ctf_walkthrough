@@ -1,0 +1,42 @@
+# Login using the following credentials.
+
+ssh denise@venus.hackmyvm.eu -p 5000
+pwd: pFg92DpGucMWccA
+
+Mission 0x46:
+The user zora is screaming doas!
+
+Soln:
+
+-> 'doas' sounds like a command, a quick google search gives me the results for wikipedia page for archlinux, where they have mentioned it's functionality. Which is :
+
+>>"Like sudo, doas is used to assume the identity of another user on the system."
+
+-> So it is used in a similar way sudo is used but it is much smaller in size and easier to set up, assuming that the command mentioned should be executed with root privileges.
+
+-> I'm yet to understand this "doas" command, as it is very vaguely explained as far as the sources I went through, anywho...
+
+-> "doas" is kinda substitute for the "sudo" user, whereas the "sudo" is the 'be all do all' of the linux, to limit the users privilege while letting them use some functionality / commands with limited or selective root privilege.. ig..??
+
+-> Syntax: doas <command>
+	- Example: doas cat /etc/passwd
+
+-> Let's try to change into "zora" user using the "doas" command.
+
+# denise@venus:~$ doas -su zora
+# doas (denise@venus) password: pFg92DpGucMWccA
+# zora@venus:/pwned/denise$
+
+-> That's it..?? Seriously..?? One google search away. Anyways, link for the doas funcion's documentation is down below :
+> https://wiki.archlinux.org/title/Doas
+
+-> Feed free to read it. Now back to the problem. Let's go to zora's home directory, and check the contents of the directory.
+
+# zora@venus:/pwned/denise$ cd
+# zora@venus:~$ ls
+# flagz.txt  mission.txt  zora_pass.txt
+
+-> Open the "zora_pass.txt" file and save the passwords somewhere else on you local machine.
+
+# zora@venus:~$ cat zora_pass.txt
+# BWm1R3jCcb53riO
